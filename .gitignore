@@ -1,0 +1,48 @@
+# Python specific
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.env
+*.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# FastAPI specific
+instance/
+*.db
+*.sqlite3
+
+# Logs
+*.log
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Test coverage
+htmlcov/
+.coverage
+.tox/
+.nox/
+.pytest_cache/
+.cache/
+
+# Docker
+*.dockerfile
+*.tar
+*.img
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
