@@ -1,8 +1,11 @@
-from fastapi import FastAPI
 import datetime
-from models import Customer, Transaction, Invoice, CustomerCreate
 
-app = FastAPI()
+from fastapi import FastAPI
+from models import Customer, CustomerCreate, Invoice, Transaction
+from postgres import SessionDep, init_db
+from sqlmodel import select
+
+app = FastAPI(lifespan=init_db)
 
 
 
@@ -17,16 +20,16 @@ async def get_time():
 db_customers: list[Customer] = []
 
 @app.post("/customers", response_model=Customer)
-async def create_customer(customer: CustomerCreate):
+async def create_customer(customer: CustomerCreate, sesion: SessionDep):
     customer = Customer.model_validate(customer.model_dump())
-
-    customer.id = len(db_customers) + 1
-    db_customers.append(customer)
+    sesion.add(customer)
+    sesion.commit()
+    sesion.refresh(customer)
     return customer
 
 @app.get("/customers", response_model=list[Customer])
-async def list_customers():
-    return db_customers 
+async def list_customers(session: SessionDep):
+    return session.exec(select(Customer)).all() 
 
 @app.post("/transactions")
 async def create_transaction(transaction: Transaction):
