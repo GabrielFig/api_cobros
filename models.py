@@ -1,17 +1,25 @@
-from pydantic import BaseModel as Base
+from pydantic import BaseModel
 from pydantic import EmailStr
 from datetime import datetime
 
-class BaseModel(Base):
-    id: int
-    create_date: datetime
-    #update_date: datetime | None
+# class BaseModel(Base):
+#     id: int
+#     #create_date: datetime
+#     #update_date: datetime | None
 
-class Customer(BaseModel):
+class CustomerBase(BaseModel):
     name: str
-    description: str | None 
-    email : EmailStr
-    age : int
+    description: str | None
+    email: EmailStr
+    age: int
+
+
+class CustomerCreate(CustomerBase):
+    pass
+
+
+class Customer(CustomerBase):
+    id: int | None = None
 
 class Transaction(BaseModel):
     amount: int
